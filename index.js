@@ -11,4 +11,5 @@ request(url, function (error, response, body) {
     } else {
         console.log("Произошла ошибка: " + error);
     }
+    console.log(url);
 });
