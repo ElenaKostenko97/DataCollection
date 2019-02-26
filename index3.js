@@ -1,12 +1,10 @@
-
 const axios = require("axios");
 const cheerio = require("cheerio");
-//import { concat, range } from "lodash";
 const concat = require("lodash/concat");
 const range = require("lodash/range");
 
 
-const tasks = { title: "tws", url: "https://www.farpost.ru/vladivostok/realty/rent_flats/" };
+const tasks = { title: "tws", url: "https://www.farpost.ru/vladivostok/realty/rent_flats/?pageSize=50&plashka-off=1&ajax=1" };
 
 async function load () {
 	try {
@@ -20,20 +18,16 @@ async function load () {
 
 			return $(".bull-item").map((i, el) => {
 				const id = $(el).find("[data-bulletin-id]").data("bulletin-id");
-				const url = $(el).find("a").attr("href");
-				return { id, url };
+				const title = $(el).find('div[class="title"] > a').text();
+				const price = $(el).find('span[data-role="price"]').text();
+				const adress = $(el).find('div[class="annotation auto-shy"]').text();
+
+				return { id,title,price,adress };
 			}).get();
 
 		});
-		const datas = concat(...mapId);
 
 		console.log(mapId);
-
-		//await destroyAdsId(tasks[0].title);
-		//await saveAdIds(tasks[0].title, datas);
-
-		// const { dataValues } = await fetchAdIds(tasks[0].title);
-
 
 	} catch (e) {
 		console.error(e);
